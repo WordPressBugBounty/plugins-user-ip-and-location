@@ -3,13 +3,13 @@
 /**
  * Plugin Name: User IP and Location
  * Plugin URI: https://theguidex.com/
- * Version: 3.2
+ * Version: 4.0.1
  * Author: TheGuideX
  * Author URI: https://theguidex.com/author/sunny/
  * Description: Allows you to insert user's IP address, Location, ISP, City in your WordPress blog post and page using shortcode.
  * License: GPL2
- * Requires PHP: 7.0
- * Tested up to: 6.5.2
+ * Requires PHP: 7.2
+ * Tested up to: 6.8.1
  * Text Domain: user-ip-and-location
  */
 
@@ -22,23 +22,22 @@ define('USER_IP_AND_LOCATION_PLUGIN_URL',              plugin_dir_url(__FILE__))
 define('USER_IP_AND_LOCATION_PLUGIN_PATH',             plugin_dir_path(__FILE__));
 define('USER_IP_AND_LOCATION_PLUGIN_BASENAME',         plugin_basename(__FILE__));
 define('USER_IP_AND_LOCATION_ADMIN_PATH',              USER_IP_AND_LOCATION_PLUGIN_PATH . 'admin/');
-define('USER_IP_AND_LOCATION_INC_PATH',                USER_IP_AND_LOCATION_PLUGIN_PATH . 'inc/');
+define('USER_IP_AND_LOCATION_INCLUDES_PATH',           USER_IP_AND_LOCATION_PLUGIN_PATH . 'includes/');
 define('USER_IP_AND_LOCATION_FLAGS',                   plugin_dir_url(__FILE__) . 'flags/');
-define('USER_IP_AND_LOCATION_CSS_PATH',                USER_IP_AND_LOCATION_PLUGIN_PATH . 'assets/css/');
-define('USER_IP_AND_LOCATION_VERSION',                 '3.1');
+define('USER_IP_AND_LOCATION_VERSION',                 '4.0.1');
 
+# Load core classes and functions
+require_once USER_IP_AND_LOCATION_INCLUDES_PATH . 'class-user-ip-location.php';
+require_once USER_IP_AND_LOCATION_INCLUDES_PATH . 'class-user-browser.php';
+require_once USER_IP_AND_LOCATION_INCLUDES_PATH . 'functions-developer.php';
+require_once USER_IP_AND_LOCATION_INCLUDES_PATH . 'functions-shortcodes.php';
 
-#Load the plugin
-function user_ip_and_location_load()
-{
-    if (current_user_can('activate_plugins')) {
-        require_once USER_IP_AND_LOCATION_ADMIN_PATH . 'user-ip-admin.php';
-    }
+# Load admin class
+if (is_admin()) {
+    require_once USER_IP_AND_LOCATION_ADMIN_PATH . 'class-admin-settings.php';
+    $admin_settings = User_IP_Location_Admin_Settings::get_instance();
+    add_filter('plugin_action_links_' . USER_IP_AND_LOCATION_PLUGIN_BASENAME, [$admin_settings, 'add_settings_link']);
 }
-add_action('plugins_loaded', 'user_ip_and_location_load');
-
-#Load functions and classes
-require USER_IP_AND_LOCATION_INC_PATH . 'user-ip-functions.php';
 
 #Registering activation hook
 register_activation_hook(__FILE__, 'user_ip_and_location_activation');

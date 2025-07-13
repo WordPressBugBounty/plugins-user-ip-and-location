@@ -1,80 +1,119 @@
 === User IP and Location ===
 Contributors: theguidex, 5unnykum4r
-Tags: geolocation, vpn, user ip address, user location, country code, region, city, country name, user IP, visitor IP, user location, user country display
-Requires at least: 7.0
-Tested up to: 6.5.2
-Stable tag: 3.2
+Tags: geolocation, user ip address, user location, country code, region, city, country name, user IP, visitor IP, user location, ajax, cache friendly, wp-rocket, local time, zip code
+Requires at least: 5.0
+Tested up to: 6.8.1
+Stable tag: 4.0.1
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
-User IP and Location is a plugin for WordPress that allows you to easily display your website visitor's real-time location, IP address, and other related information in your posts, pages, and widgets. You can achieve this by using shortcodes provided by the plugin. The plugin is user-friendly, and it saves you time and effort that would have been spent trying to gather such information manually.
+Want to show your website visitors their IP address, location, and other cool details? This plugin makes it super easy! Now works perfectly with caching plugins like WP-Rocket too.
 
 == Description ==
 
-If you're looking to display publicly available information such as visitors' IP address, IP location, browser details, operating system, and more on your WordPress website, "User IP and Location" is an excellent plugin to use.
+Looking to display your website visitor's IP address, location, browser details, and other information on your WordPress site? Then "User IP and Location" plugin is exactly what you need!
 
-Setting up the plugin is a breeze, and the provided shortcodes allow you to effortlessly display this information on any section of your site. You could, for instance, add a shortcode to your sidebar or footer to showcase this information on every page of your website.
+This plugin is very simple to set up and use. Just install it, and you can start showing visitor information anywhere on your website using easy shortcodes. You can put these shortcodes in your posts, pages, sidebar, footer - anywhere you want!
 
-"User IP and Location" use the <a href="http://ip-api.com" rel="friend" title="IP-API">IP-API</a> website to fetch the user's IP address and location information, so it is always up-to-date.
+The best part? We use the reliable and free <a href="http://ip-api.com" rel="friend" title="IP-API">IP-API</a> service to get all the location data, so the information is always accurate and up-to-date.
 
-Some of the features of User IP and Location include:
+**New in Version 4.0.1 - Works with Caching Plugins!**
 
-<code>[userip_location type="ip"]</code>
-<code>[userip_location type="continent"]</code>
-<code>[userip_location type="country"]</code>
-<code>[userip_location type="countrycode"]</code>
-<code>[userip_location type="region"]</code>
-<code>[userip_location type="regionname"]</code>
-<code>[userip_location type="city"]</code>
-<code>[userip_location type="lat"]</code>
-<code>[userip_location type="lon"]</code>
-<code>[userip_location type="timezone"]</code>
-<code>[userip_location type="currency"]</code>
-<code>[userip_location type="isp"]</code>
-<code>[userip_location type="mobile"]</code>
-<code>[userip_location type="proxy"]</code>
-<code>[userip_location type="hosting"]</code>
-<code>[userip_location type="browser"]</code>
-<code>[userip_location type="os"]</code>
-<code>[userip_location type="flag" height="auto" width="50px"]</code>
+Are you using WP-Rocket, W3 Total Cache, or any other caching plugin? No problem at all! We've completely rebuilt the plugin to work perfectly with all caching plugins. Your visitors will always see their own correct information, not some cached data from another visitor.
 
-If you're using the flag shortcode in User IP and Location plugin, note that the height and width parameters are optional. By default, the height is set to auto, and the width is set to 50px. However, you can modify the size of the flag by passing any or both of these parameters and setting them to your preferred values.
+**Advanced Features:**
 
-= Features of User IP and Location =
+* **Multi-Language Support** - Get location names in 8 different languages (English, German, Spanish, Portuguese, French, Japanese, Chinese, Russian)
+* **PRO API Key Support** - Use your premium IP-API key for higher limits and HTTPS security
+* **Smart Caching System** - Built-in server-side caching with customizable expiration times (1 hour to 1 week)
+* **Conditional Content** - Show different content to visitors from specific countries, regions, or cities
+* **Developer Tools** - PHP functions and REST API endpoints for custom development
+* **Customizable Output** - Change "Yes/No" text to any language or format you prefer
 
-* Simple and quick to setup.
-* Can be used to display the IP address, location, browser details, operating system, and more details of the website visitors.
-* Uses the IP-API website to fetch user's IP address and location, so it is always up-to-date.
-* Easily detect the browser and operating system of your website visitors.
-* Shortcodes can be used to display this information anywhere on your site.
-* Supports flag and currency shortcodes.
+Here are all the shortcodes you can use:
 
-If you want an easy way to display visitor IP address, location, browser, and operating system information on your WordPress website, then User IP and Location is a great plugin to use.
+<code>[userip_location type="ip"]</code> - Shows visitor's IP address
+<code>[userip_location type="continent"]</code> - Shows continent name
+<code>[userip_location type="country"]</code> - Shows country name
+<code>[userip_location type="countrycode"]</code> - Shows country code (like IN, US, UK)
+<code>[userip_location type="region"]</code> - Shows region code
+<code>[userip_location type="regionname"]</code> - Shows region/state name
+<code>[userip_location type="city"]</code> - Shows city name
+<code>[userip_location type="zip"]</code> - **NEW!** Shows ZIP/postal code
+<code>[userip_location type="lat"]</code> - Shows latitude
+<code>[userip_location type="lon"]</code> - Shows longitude
+<code>[userip_location type="timezone"]</code> - Shows timezone
+<code>[userip_location type="currency"]</code> - Shows local currency
+<code>[userip_location type="isp"]</code> - Shows internet provider name
+<code>[userip_location type="mobile"]</code> - Shows if visitor is on mobile network
+<code>[userip_location type="proxy"]</code> - Shows if visitor is using proxy
+<code>[userip_location type="hosting"]</code> - Shows if IP is from hosting provider
+<code>[userip_location type="browser"]</code> - Shows browser name
+<code>[userip_location type="os"]</code> - Shows operating system
+<code>[userip_location type="flag" height="auto" width="50px" vertical_align="middle"]</code> - Shows country flag
+<code>[userip_localtime]</code> - **NEW!** Shows visitor's current local time
+
+**Smart Conditional Content:**
+Show different content to visitors from different places! Perfect for targeted marketing, regional offers, or localized messages.
+
+<code>[userip_conditional country="US,IN"]Content for US and India visitors only[/userip_conditional]</code>
+<code>[userip_conditional country_not="CN,RU"]Content for everyone except China and Russia[/userip_conditional]</code>
+<code>[userip_conditional region="CA,TX"]Special offers for California and Texas![/userip_conditional]</code>
+<code>[userip_conditional city="Mumbai,Delhi"]Mumbai and Delhi exclusive deals[/userip_conditional]</code>
+
+**About the Flag Shortcode:**
+When using the flag shortcode, you can control its size and position. The `height`, `width`, and `vertical_align` options are all optional. By default, height is auto, width is 50px, and it aligns in the middle. You can change these as per your needs.
+
+= Why Choose User IP and Location Plugin? =
+
+* **Super Easy Setup** - Just install and activate, that's it!
+* **Works with All Caching Plugins** - WP-Rocket, W3 Total Cache, you name it!
+* **Fast Loading** - Uses modern AJAX technology so it doesn't slow down your site
+* **Lots of Information** - IP, country, city, flag, browser, OS, ISP, and much more
+* **Multi-Language Support** - Location names in 8 different languages
+* **PRO API Support** - Use premium IP-API keys for higher limits and HTTPS
+* **Smart Caching** - Server-side caching with customizable expiration (1 hour to 1 week)
+* **New Features** - ZIP code and local time shortcodes added
+* **Smart Content** - Show different content to visitors from different countries, regions, or cities
+* **Always Updated** - Uses reliable IP-API service for accurate data
+* **Developer Friendly** - Includes PHP functions and REST API for custom development
+* **Customizable** - Change output text, caching settings, and more from admin panel
+
+Perfect for bloggers, businesses, and developers who want to personalize their website based on visitor location!
 
 = Credits =
 
-This plugin is created by <a href="https://heyserp.com" rel="friend" title="HeySERP"> HeySERP </a> and <a href="https://thewpx.com" rel="friend" title="TheWPX"> TheWPX </a> team.
+This awesome plugin is created by the talented team at <a href="https://heyserp.com" rel="friend" title="HeySERP"> HeySERP </a>.
 
-To learn more about WordPress, you can visit our website <a href="https://theguidex.com/" rel="friend" title="TheGuideX"> TheGuideX </a> for tutorials on topics like:
+Want to learn more about WordPress? Check out our website <a href="https://theguidex.com/" rel="friend" title="TheGuideX"> TheGuideX </a> where we share helpful tutorials on:
 
-* <a href="https://thewpx.com/get-ip-address-and-location-in-wordpress/" rel="friend" title="How to Get the IP Address and Location of Users in WordPress">Get User IP and Location in WordPress</a>
-* <a href="https://theguidex.com/common-wordpress-errors/" rel="friend" title="Common WordPress Errors & Solutions">Common WordPress Errors & Solutions</a>
-* <a href="https://theguidex.com/google-adsense-plugins-for-wordpress/" rel="friend" title="Best WordPress Ads Manager Plugins">Best WordPress Ads Manager Plugins</a>
+* <a href="https://thewpx.com/get-ip-address-and-location-in-wordpress/" rel="friend" title="How to Get the IP Address and Location of Users in WordPress">How to Get User IP and Location in WordPress</a>
+* <a href="https://theguidex.com/common-wordpress-errors/" rel="friend" title="Common WordPress Errors & Solutions">Common WordPress Errors & How to Fix Them</a>
+* <a href="https://theguidex.com/google-adsense-plugins-for-wordpress/" rel="friend" title="Best WordPress Ads Manager Plugins">Best WordPress Ad Management Plugins</a>
 
-...and many more <a href="https://theguidex.com/category/wordpress/" rel="friend" title="WordPress Tutorials">WordPress tutorials</a>.
+...and many more helpful <a href="https://theguidex.com/category/wordpress/" rel="friend" title="WordPress Tutorials">WordPress tutorials</a> in simple language!
 
 
 == Installation ==
 
-You can search "User IP and Location" on the WordPress Add New Plugin page , or download the archive.
+Installing this plugin is very easy! You can do it in two ways:
 
-1. To install this plugin, Login to your WordPress admin account
-2. Go to Plugins Page, and click on "Add New Plugin" button.
-3. Once you're on the Plugin page, click on the "Upload Plugin" button
-4. Now Select the Plugin and Click on "Install Now"
-5. Your plugin is successfully installed. Now click on "Activate" button to activate the plugin.
+**Method 1: Direct Installation (Recommended)**
+1. Go to your WordPress admin dashboard
+2. Click on 'Plugins' → 'Add New'
+3. Search for "User IP and Location"
+4. Click "Install Now" and then "Activate"
+5. Done! You can now use the shortcodes anywhere on your site
 
-Shortcodes:
+**Method 2: Upload Installation**
+1. Download the plugin zip file
+2. Go to 'Plugins' → 'Add New' → 'Upload Plugin'
+3. Choose the zip file and click "Install Now"
+4. Click "Activate" after installation
+5. That's it!
+
+**Using the Shortcodes:**
+Once activated, you can use any of these shortcodes in your posts, pages, or widgets:
 
 <code>[userip_location type="ip"]</code>
 <code>[userip_location type="continent"]</code>
@@ -83,6 +122,7 @@ Shortcodes:
 <code>[userip_location type="region"]</code>
 <code>[userip_location type="regionname"]</code>
 <code>[userip_location type="city"]</code>
+<code>[userip_location type="zip"]</code>
 <code>[userip_location type="lat"]</code>
 <code>[userip_location type="lon"]</code>
 <code>[userip_location type="timezone"]</code>
@@ -94,67 +134,167 @@ Shortcodes:
 <code>[userip_location type="browser"]</code>
 <code>[userip_location type="os"]</code>
 <code>[userip_location type="flag" height="auto" width="50px"]</code>
+<code>[userip_localtime]</code>
+
+For advanced settings, go to 'Settings' → 'User IP and Location' in your admin menu.
 
 == Screenshots ==
 
-Screenshots from WordPress :
-
-1. Screenshot Page "Add New Post" with Shortcode
-2. Screenshot Page "Public Post" with User IP Address & other User's information. 
+1. Plugin settings page - easy to configure
+2. Using shortcodes in WordPress editor
+3. Live example showing visitor information on website
 
 == Frequently Asked Questions ==
 
-= Can I use User IP and Location to Show User IP? =
+= Can I show the visitor's IP address? =
 
-Yes, you can use the <code>[userip_location type="ip"]</code> shortcode to show the IP address of visitor.
+Yes! Just use <code>[userip_location type="ip"]</code> shortcode anywhere you want to display the visitor's IP address.
 
-= Can I use User IP and Location to Show User Location? =
+= How do I show visitor's location details? =
 
-Yes, you can easily add the above shortcodes to show the user location informations like User Country, Region, CountryCode, City, Lat & Long and some other helpful information.
+Easy! Use these shortcodes to show different location information:
+- Country: <code>[userip_location type="country"]</code>
+- City: <code>[userip_location type="city"]</code>
+- Region: <code>[userip_location type="regionname"]</code>
+- And many more!
 
-=  Can I use this Plugin to Show User Browser? =
+= Can I detect visitor's browser and operating system? =
 
-Yes, you can use the <code>[userip_location type="browser"]</code> shortcode to show the browser name and version of visitor.
+Absolutely! Use <code>[userip_location type="browser"]</code> for browser name and <code>[userip_location type="os"]</code> for operating system.
 
-= Can I use this Plugin to Show User Operating System? =
+= Does this plugin support country flags? =
 
-Yes, you can use the <code>[userip_location type="os"]</code> shortcode to show the operating system of visitor.
+Yes! Use <code>[userip_location type="flag"]</code> to show the visitor's country flag. You can also control the size and alignment:
+<code>[userip_location type="flag" width="30px" height="20px" vertical_align="top"]</code>
 
-= Does this Plugin Support Flag? =
+= Can I show different currency for different countries? =
 
-Yes, this plugin supports flag shortcodes. You can use the <code>[userip_location type="flag" height="auto" width="50px"]</code> shortcode to show the flag of visitor's country. The height and width are optional and the default value for height is auto; and width, it is 50px. You can pass any or both of these values to alter the size of flag as per your choice.
+Yes! Use <code>[userip_location type="currency"]</code> to display the local currency code for the visitor's country.
 
-= Does this Plugin Support Currency? =
+= Will this plugin work with caching plugins like WP-Rocket? =
 
-Yes, this plugin supports currency shortcodes. You can use the <code>[userip_location type="currency"]</code> shortcode to show the currency of visitor's country.
+Absolutely! This was a major issue in older versions, but from version 4.0.1 onwards, the plugin works perfectly with all caching plugins. We use modern AJAX technology to ensure visitors always see their own correct information.
 
+= Can I show visitor's ZIP code and local time? =
+
+Yes! These are new features in version 4.0.1:
+- ZIP/Postal code: <code>[userip_location type="zip"]</code>
+- Local time: <code>[userip_localtime]</code>
+
+= How do I show content only to visitors from specific countries? =
+
+Use the conditional shortcode like this:
+<code>[userip_conditional country="US,IN,UK"]This content is only for visitors from USA, India, and UK[/userip_conditional]</code>
+
+You can also exclude countries:
+<code>[userip_conditional country_not="CN,RU"]This content is for everyone except China and Russia[/userip_conditional]</code>
+
+And target specific regions or cities:
+<code>[userip_conditional region="CA,TX"]Special content for California and Texas[/userip_conditional]</code>
+<code>[userip_conditional city="Mumbai,Delhi"]Mumbai and Delhi only content[/userip_conditional]</code>
+
+= Can I get location names in different languages? =
+
+Absolutely! The plugin supports 8 languages for location names:
+- English (default)
+- German (Deutsch)
+- Spanish (Español)
+- Portuguese (Português)
+- French (Français)
+- Japanese (日本語)
+- Chinese (中国)
+- Russian (Русский)
+
+Just go to Settings → User IP and Location → API Settings and select your preferred language. This will show country, region, and city names in that language.
+
+= What is the PRO API Key feature? =
+
+If you have a premium account with IP-API.com, you can enter your API key in the plugin settings. This gives you:
+- Higher request limits (up to 1000 requests per minute)
+- HTTPS secure connections instead of HTTP
+- Priority support from IP-API
+- More accurate data
+
+The free version works great for most websites, but if you have high traffic, the PRO version is recommended.
+
+= How does the caching system work? =
+
+The plugin has a smart caching system that saves API responses to reduce server load and improve speed:
+- You can enable/disable caching from plugin settings
+- Choose cache expiration time: 1 hour, 6 hours, 1 day, or 1 week
+- Cached data is stored securely in your WordPress database
+- You can manually clear the cache anytime from settings page
+
+This means if 100 visitors from the same IP visit your site, the plugin will only make 1 API call instead of 100!
+
+= Can developers use this plugin in custom code? =
+
+Yes! We provide several tools for developers:
+
+**PHP Function:**
+<code>
+if (function_exists('get_user_ip_data')) {
+    $location = get_user_ip_data();
+    if ($location && $location['countryCode'] === 'IN') {
+        echo 'Welcome Indian visitor!';
+    }
+}
+</code>
+
+**REST API Endpoints:**
+- Secure endpoint for admins: `/wp-json/user-ip/v1/location`
+- Public endpoint for AJAX: `/wp-json/user-ip/v1/data`
+
+Perfect for custom themes, plugins, or JavaScript applications!
+
+= Will this plugin slow down my website? =
+
+Not at all! The plugin uses AJAX loading, which means the location data is fetched after your page has already loaded. Your website speed remains fast.
+
+= Is the location data accurate? =
+
+Yes! We use the reliable IP-API service which provides very accurate location data based on IP addresses.
 
 
 == Changelog ==
 
+= 4.0.1 - 25 July 2024 =
+* **MAJOR UPDATE:** Complete rewrite using AJAX technology - now fully compatible with all caching plugins (WP-Rocket, W3 Total Cache, etc.)
+* **NEW:** Added <code>[userip_location type="zip"]</code> shortcode to show visitor's ZIP/postal code
+* **NEW:** Added <code>[userip_localtime]</code> shortcode to display visitor's current local time
+* **NEW:** Added `vertical_align` attribute to flag shortcode for better text alignment
+* **NEW:** Added quick 'Settings' link on the main plugins page
+* **FIX:** Added timeout to API calls to prevent website slowdowns or 504 errors
+* **FIX:** Fixed issue where some shortcodes (IP, country code, region name) were not displaying properly
+* **SECURITY:** Improved code security and performance optimizations
+
 = 3.2 - 24 April 2024 =
-* Optimized coding for better performance
-* Added compatibility for WordPress 6.5.2
+* Code optimization for better performance
+* Tested compatibility with WordPress 6.5.2
 
 = 2.2.1 - 26 April 2023 =
-* Optimized the coding for better performance.
-* Fixed security issues!
+* Performance improvements and code optimization
+* Important security fixes
 
 = 2.2 - 26 February 2023 =
-* Optimized the coding for better performance.
-* Added support for mobile, proxy, and hosting information.
+* Code optimization for better performance
+* Added support for mobile network, proxy, and hosting provider detection
 
 = 2.0 - 19 June 2022 =
-* Added Browser and Operating System detection.
-* More shortcakes are added.
-* Optimized the coding. 
+* Added browser and operating system detection features
+* More shortcodes added for better functionality
+* Overall code optimization
 
 = 1.7 - 27th January 2022 =
-* Updated script to work with latest version
+* Updated code to work with latest WordPress version
 
 = 1.4 - 6th June 2021 =
-* Fix the issue where it show your server IP address instead of user's IP.
+* Fixed important bug where server IP was showing instead of visitor's IP
 
 == Upgrade Notice ==
- 
-This is a major security update of this plugin. Ensure to update for better performance.
+
+= 4.0.1 =
+🚀 MAJOR UPDATE! This version fixes compatibility with caching plugins and adds cool new features like ZIP code and local time display. If you're using any caching plugin, this update is essential for proper functioning. Update now to enjoy better performance and new shortcodes!
+
+= 3.2 =
+Important security update with performance improvements. Please update for better security and performance.
