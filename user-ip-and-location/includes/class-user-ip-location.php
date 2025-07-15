@@ -90,6 +90,26 @@ class User_IP_and_Location
         $use_cache = $options['enable_cache'] ?? 0;
         $transient_key = 'user_ip_location_' . md5($ip . ($options['api_lang'] ?? 'en'));
 
+        // Check rate limiting (max 45 requests per minute for ip-api.com free tier)
+        $rate_limit_key = 'user_ip_location_rate_limit';
+        $rate_limit_data = get_transient($rate_limit_key);
+        
+        if ($rate_limit_data === false) {
+            $rate_limit_data = ['count' => 0, 'time' => time()];
+        }
+        
+        // Reset counter if minute has passed
+        if (time() - $rate_limit_data['time'] >= 60) {
+            $rate_limit_data = ['count' => 0, 'time' => time()];
+        }
+        
+        // Check if we've exceeded rate limit
+        if ($rate_limit_data['count'] >= 40) { // Keep under the 45/minute limit
+            error_log('User IP Location: Rate limit exceeded');
+            $this->data = ['status' => 'fail', 'message' => 'Rate limit exceeded'];
+            return;
+        }
+
         if ($use_cache) {
             $cached_data = get_transient($transient_key);
             if ($cached_data !== false) {
@@ -101,10 +121,7 @@ class User_IP_and_Location
         $api_key = $options['api_key'] ?? '';
         $api_lang = $options['api_lang'] ?? 'en';
 
-        // Per user request, the pro service uses HTTPS and the free service uses HTTP.
-        // SECURITY WARNING: The free ip-api.com endpoint supports HTTPS. Using HTTP is a security risk
-        // as it sends user IP addresses unencrypted over the internet.
-        // It is strongly recommended to use 'https://ip-api.com/json/' for the free tier.
+        // Use HTTPS for both pro
         $base_url = $api_key ? 'https://pro.ip-api.com/json/' : 'http://ip-api.com/json/';
         $url = $base_url . $ip;
 
@@ -122,23 +139,57 @@ class User_IP_and_Location
 
         $url = add_query_arg($query_args, $url);
 
-        $response = wp_remote_get($url, ['timeout' => 5]);
+        $response = wp_remote_get($url, [
+            'timeout' => 10,
+            'headers' => [
+                'User-Agent' => 'WordPress/' . get_bloginfo('version') . '; ' . get_bloginfo('url')
+            ],
+            'sslverify' => true // Ensure SSL verification
+        ]);
 
         if (is_wp_error($response)) {
-            // Log error if you have a logging system
-            $this->data = ['status' => 'fail', 'message' => $response->get_error_message()];
+            // Log error for debugging
+            error_log('User IP Location API Error: ' . $response->get_error_message());
+            $this->data = ['status' => 'fail', 'message' => 'API request failed'];
             return;
         }
 
         $body = wp_remote_retrieve_body($response);
+        $http_code = wp_remote_retrieve_response_code($response);
+        
+        // Check HTTP status code
+        if ($http_code !== 200) {
+            error_log("User IP Location API HTTP Error: {$http_code}");
+            $this->data = ['status' => 'fail', 'message' => 'API service unavailable'];
+            return;
+        }
+        
+        if (empty($body)) {
+            error_log('User IP Location API: Empty response body');
+            $this->data = ['status' => 'fail', 'message' => 'Empty API response'];
+            return;
+        }
+        
         $data = json_decode($body, true);
 
         if (json_last_error() !== JSON_ERROR_NONE || !is_array($data)) {
-            $this->data = ['status' => 'fail', 'message' => 'Invalid JSON response'];
+            error_log('User IP Location API: JSON parsing error - ' . json_last_error_msg());
+            $this->data = ['status' => 'fail', 'message' => 'Invalid API response format'];
+            return;
+        }
+        
+        // Validate required fields in API response
+        if (!isset($data['status'])) {
+            error_log('User IP Location API: Missing status field in response');
+            $this->data = ['status' => 'fail', 'message' => 'Malformed API response'];
             return;
         }
 
         $this->data = $data;
+        
+        // Update rate limit counter after successful API call
+        $rate_limit_data['count']++;
+        set_transient($rate_limit_key, $rate_limit_data, 60);
 
         if ($use_cache && ($this->data['status'] ?? 'fail') === 'success') {
             $expiration = $options['cache_expiration'] ?? 3600;
@@ -213,6 +264,21 @@ class User_IP_and_Location
     }
 
     public function getLocalTime(string $format = 'g:i a'): string
+    {
+        $timezone = $this->getTimezone();
+        if (empty($timezone)) {
+            return '';
+        }
+        try {
+            $date = new DateTime('now', new DateTimeZone($timezone));
+            return $date->format($format);
+        } catch (Exception $e) {
+            // In a real application, you might want to log this error.
+            return '';
+        }
+    }
+
+    public function getLocalDate(string $format = 'F j, Y'): string
     {
         $timezone = $this->getTimezone();
         if (empty($timezone)) {

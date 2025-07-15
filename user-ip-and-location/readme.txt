@@ -3,7 +3,7 @@ Contributors: theguidex, 5unnykum4r
 Tags: geolocation, user ip address, user location, country code, region, city, country name, user IP, visitor IP, user location, ajax, cache friendly, wp-rocket, local time, zip code
 Requires at least: 5.0
 Tested up to: 6.8.1
-Stable tag: 4.0.1
+Stable tag: 4.0.2
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -17,7 +17,7 @@ This plugin is very simple to set up and use. Just install it, and you can start
 
 The best part? We use the reliable and free <a href="http://ip-api.com" rel="friend" title="IP-API">IP-API</a> service to get all the location data, so the information is always accurate and up-to-date.
 
-**New in Version 4.0.1 - Works with Caching Plugins!**
+**New in Version 4.x.x - Works with Caching Plugins!**
 
 Are you using WP-Rocket, W3 Total Cache, or any other caching plugin? No problem at all! We've completely rebuilt the plugin to work perfectly with all caching plugins. Your visitors will always see their own correct information, not some cached data from another visitor.
 
@@ -52,6 +52,7 @@ Here are all the shortcodes you can use:
 <code>[userip_location type="os"]</code> - Shows operating system
 <code>[userip_location type="flag" height="auto" width="50px" vertical_align="middle"]</code> - Shows country flag
 <code>[userip_localtime]</code> - **NEW!** Shows visitor's current local time
+<code>[userip_localdate]</code> - **NEW!** Shows visitor's current local date
 
 **Smart Conditional Content:**
 Show different content to visitors from different places! Perfect for targeted marketing, regional offers, or localized messages.
@@ -135,6 +136,7 @@ Once activated, you can use any of these shortcodes in your posts, pages, or wid
 <code>[userip_location type="os"]</code>
 <code>[userip_location type="flag" height="auto" width="50px"]</code>
 <code>[userip_localtime]</code>
+<code>[userip_localdate]</code>
 
 For advanced settings, go to 'Settings' → 'User IP and Location' in your admin menu.
 
@@ -173,13 +175,14 @@ Yes! Use <code>[userip_location type="currency"]</code> to display the local cur
 
 = Will this plugin work with caching plugins like WP-Rocket? =
 
-Absolutely! This was a major issue in older versions, but from version 4.0.1 onwards, the plugin works perfectly with all caching plugins. We use modern AJAX technology to ensure visitors always see their own correct information.
+Absolutely! This was a major issue in older versions, but from version 4.x onwards, the plugin works perfectly with all caching plugins. We use modern AJAX technology to ensure visitors always see their own correct information.
 
 = Can I show visitor's ZIP code and local time? =
 
-Yes! These are new features in version 4.0.1:
+Yes! These are new features in version 4.x:
 - ZIP/Postal code: <code>[userip_location type="zip"]</code>
 - Local time: <code>[userip_localtime]</code>
+- Local date: <code>[userip_localdate]</code>
 
 = How do I show content only to visitors from specific countries? =
 
@@ -258,7 +261,14 @@ Yes! We use the reliable IP-API service which provides very accurate location da
 
 == Changelog ==
 
-= 4.0.1 - 25 July 2024 =
+= 4.0.2 - 15 July 2025 =
+* **NEW:** Added <code>[userip_localdate]</code> shortcode to display visitor's current local date
+* **FIX:** Improved JavaScript compatibility with dynamic content loading
+* **FIX:** Enhanced MutationObserver to handle AJAX-loaded forms and content
+* **IMPROVEMENT:** Optimized API caching to prevent multiple requests on the same page
+* **CACHING:** Fix cache issue with some plugins.
+
+= 4.0.1 - 13 July 2025 =
 * **MAJOR UPDATE:** Complete rewrite using AJAX technology - now fully compatible with all caching plugins (WP-Rocket, W3 Total Cache, etc.)
 * **NEW:** Added <code>[userip_location type="zip"]</code> shortcode to show visitor's ZIP/postal code
 * **NEW:** Added <code>[userip_localtime]</code> shortcode to display visitor's current local time
@@ -293,8 +303,8 @@ Yes! We use the reliable IP-API service which provides very accurate location da
 
 == Upgrade Notice ==
 
+= 4.0.2 =
+🎉 NEW FEATURE! Added [userip_localdate] shortcode to show visitor's local date. Plus important fixes for dynamic content loading with page builders like OptimizePress and Elementor. Update now!
+
 = 4.0.1 =
 🚀 MAJOR UPDATE! This version fixes compatibility with caching plugins and adds cool new features like ZIP code and local time display. If you're using any caching plugin, this update is essential for proper functioning. Update now to enjoy better performance and new shortcodes!
-
-= 3.2 =
-Important security update with performance improvements. Please update for better security and performance.

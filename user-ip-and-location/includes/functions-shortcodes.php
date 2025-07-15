@@ -92,15 +92,72 @@ function user_ip_and_location_localtime_shortcode(): string
 }
 add_shortcode("userip_localtime", "user_ip_and_location_localtime_shortcode");
 
+/**
+ * Shortcode to display the user's local date.
+ *
+ * @return string An HTML placeholder to be filled by JavaScript.
+ */
+function user_ip_and_location_localdate_shortcode(): string
+{
+    user_ip_and_location_enqueue_script();
+    return '<span class="user-ip-placeholder" data-type="localdate"></span>';
+}
+add_shortcode("userip_localdate", "user_ip_and_location_localdate_shortcode");
+
 
 /**
  * Shortcode to conditionally display content based on user location.
+ * NOW CACHE-COMPATIBLE: Uses client-side processing instead of server-side.
  *
  * @param array $atts Shortcode attributes.
  * @param string|null $content The content enclosed by the shortcode.
- * @return string The content if conditions are met, otherwise an empty string.
+ * @return string The content wrapper that JavaScript will process.
  */
 function user_ip_conditional_shortcode($atts, string $content = null): string
+{
+    if (empty($content)) {
+        return '';
+    }
+
+    user_ip_and_location_enqueue_script();
+
+    // Generate unique ID for this conditional block
+    $unique_id = 'userip-conditional-' . uniqid();
+    
+    // Sanitize and prepare attributes for JavaScript
+    $conditions = [];
+    $allowed_conditions = ['country', 'country_not', 'region', 'region_not', 'city', 'city_not'];
+    
+    foreach ($allowed_conditions as $condition) {
+        if (isset($atts[$condition])) {
+            $conditions[$condition] = sanitize_text_field($atts[$condition]);
+        }
+    }
+    
+    if (empty($conditions)) {
+        // No conditions specified, show content
+        return do_shortcode($content);
+    }
+    
+    // Create a wrapper div with conditions as data attributes
+    $wrapper_attrs = ' id="' . esc_attr($unique_id) . '"';
+    $wrapper_attrs .= ' class="user-ip-conditional"';
+    $wrapper_attrs .= ' data-conditions="' . esc_attr(json_encode($conditions)) . '"';
+    $wrapper_attrs .= ' style="display: none;"'; // Hide initially until processed
+    
+    // Process the content and wrap it
+    $processed_content = do_shortcode($content);
+    
+    return '<div' . $wrapper_attrs . '>' . $processed_content . '</div>';
+}
+add_shortcode('userip_conditional', 'user_ip_conditional_shortcode');
+
+/**
+ * DEPRECATED: Server-side conditional shortcode (kept for backward compatibility)
+ * This function is deprecated and will be removed in future versions.
+ * Use the client-side version above for cache compatibility.
+ */
+function user_ip_conditional_shortcode_deprecated($atts, string $content = null): string
 {
     if (empty($content) || empty($atts)) {
         return '';
@@ -143,4 +200,4 @@ function user_ip_conditional_shortcode($atts, string $content = null): string
 
     return $display ? do_shortcode($content) : '';
 }
-add_shortcode('userip_conditional', 'user_ip_conditional_shortcode'); 
+// Note: This is intentionally not registered as a shortcode anymore 

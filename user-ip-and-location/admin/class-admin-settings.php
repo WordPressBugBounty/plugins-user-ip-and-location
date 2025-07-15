@@ -82,6 +82,8 @@ class User_IP_Location_Admin_Settings
         add_settings_section('user_ip_location_formatting_section', 'Output Formatting', [$this, 'formatting_section_callback'], 'user_ip_location_settings');
         add_settings_field('text_for_yes', 'Text for "Yes"', [$this, 'text_for_yes_callback'], 'user_ip_location_settings', 'user_ip_location_formatting_section');
         add_settings_field('text_for_no', 'Text for "No"', [$this, 'text_for_no_callback'], 'user_ip_location_settings', 'user_ip_location_formatting_section');
+        add_settings_field('time_format', 'Local Time Format', [$this, 'time_format_callback'], 'user_ip_location_settings', 'user_ip_location_formatting_section');
+        add_settings_field('date_format', 'Local Date Format', [$this, 'date_format_callback'], 'user_ip_location_settings', 'user_ip_location_formatting_section');
     }
 
     /**
@@ -97,6 +99,14 @@ class User_IP_Location_Admin_Settings
         $new_input['api_lang'] = isset($input['api_lang']) && in_array($input['api_lang'], $languages) ? $input['api_lang'] : 'en';
         $new_input['text_for_yes'] = isset($input['text_for_yes']) ? sanitize_text_field($input['text_for_yes']) : 'Yes';
         $new_input['text_for_no'] = isset($input['text_for_no']) ? sanitize_text_field($input['text_for_no']) : 'No';
+        
+        // Time and Date format options
+        $time_formats = ['g:i a', 'g:i A', 'H:i', 'h:i a', 'h:i A', 'g:i:s a', 'g:i:s A', 'H:i:s'];
+        $new_input['time_format'] = isset($input['time_format']) && in_array($input['time_format'], $time_formats) ? $input['time_format'] : 'g:i A';
+        
+        $date_formats = ['F j, Y', 'Y-m-d', 'm/d/Y', 'd/m/Y', 'M j, Y', 'j F Y', 'l, F j, Y', 'D, M j, Y'];
+        $new_input['date_format'] = isset($input['date_format']) && in_array($input['date_format'], $date_formats) ? $input['date_format'] : 'F j, Y';
+        
         return $new_input;
     }
 
@@ -113,7 +123,7 @@ class User_IP_Location_Admin_Settings
 
     public function formatting_section_callback()
     {
-        echo '<p>Customize the text output for boolean values from shortcodes like <code>[userip_location type="mobile"]</code>.</p>';
+        echo '<p>Customize the text output for boolean values from shortcodes like <code>[userip_location type="mobile"]</code>, and configure time/date formats for <code>[userip_localtime]</code> and <code>[userip_localdate]</code> shortcodes.</p>';
     }
 
     // Field callbacks
@@ -171,6 +181,166 @@ class User_IP_Location_Admin_Settings
         echo '<input type="text" name="user_ip_location_options[text_for_no]" value="' . esc_attr($text) . '" class="regular-text" />';
     }
 
+    public function time_format_callback()
+    {
+        $options = get_option('user_ip_location_options', ['time_format' => 'g:i A']);
+        $current_format = $options['time_format'] ?? 'g:i A';
+        
+        $time_formats = [
+            'g:i a' => '12-hour with lowercase am/pm (e.g., 3:30 pm)',
+            'g:i A' => '12-hour with uppercase AM/PM (e.g., 3:30 PM)',
+            'H:i' => '24-hour format (e.g., 15:30)',
+            'h:i a' => '12-hour with leading zeros and lowercase am/pm (e.g., 03:30 pm)',
+            'h:i A' => '12-hour with leading zeros and uppercase AM/PM (e.g., 03:30 PM)',
+            'g:i:s a' => '12-hour with seconds and lowercase am/pm (e.g., 3:30:45 pm)',
+            'g:i:s A' => '12-hour with seconds and uppercase AM/PM (e.g., 3:30:45 PM)',
+            'H:i:s' => '24-hour with seconds (e.g., 15:30:45)'
+        ];
+        
+        echo '<select name="user_ip_location_options[time_format]" id="time_format_select">';
+        foreach ($time_formats as $format => $description) {
+            echo '<option value="' . esc_attr($format) . '"' . selected($current_format, $format, false) . '>' . esc_html($description) . '</option>';
+        }
+        echo '</select>';
+        
+        // Add preview
+        $current_time = date($current_format);
+        echo '<p class="description">Preview: <strong><span id="time_preview">' . esc_html($current_time) . '</span></strong></p>';
+        
+        // Add JavaScript for live preview
+        echo '<script>
+        document.getElementById("time_format_select").addEventListener("change", function() {
+            var format = this.value;
+            var preview = document.getElementById("time_preview");
+            
+            // Create a mapping of PHP date formats to JavaScript equivalents for preview
+            var formatMap = {
+                "g:i a": "h:mm a",
+                "g:i A": "h:mm A", 
+                "H:i": "HH:mm",
+                "h:i a": "hh:mm a",
+                "h:i A": "hh:mm A",
+                "g:i:s a": "h:mm:ss a",
+                "g:i:s A": "h:mm:ss A",
+                "H:i:s": "HH:mm:ss"
+            };
+            
+            var now = new Date();
+            var timeString = "";
+            
+            switch(format) {
+                case "g:i a":
+                case "g:i A":
+                    var hours = now.getHours();
+                    var minutes = now.getMinutes();
+                    var ampm = hours >= 12 ? (format.includes("A") ? "PM" : "pm") : (format.includes("A") ? "AM" : "am");
+                    hours = hours % 12;
+                    hours = hours ? hours : 12;
+                    timeString = hours + ":" + (minutes < 10 ? "0" + minutes : minutes) + " " + ampm;
+                    break;
+                case "H:i":
+                    timeString = (now.getHours() < 10 ? "0" + now.getHours() : now.getHours()) + ":" + (now.getMinutes() < 10 ? "0" + now.getMinutes() : now.getMinutes());
+                    break;
+                case "h:i a":
+                case "h:i A":
+                    var hours = now.getHours();
+                    var minutes = now.getMinutes();
+                    var ampm = hours >= 12 ? (format.includes("A") ? "PM" : "pm") : (format.includes("A") ? "AM" : "am");
+                    hours = hours % 12;
+                    hours = hours ? hours : 12;
+                    timeString = (hours < 10 ? "0" + hours : hours) + ":" + (minutes < 10 ? "0" + minutes : minutes) + " " + ampm;
+                    break;
+                case "g:i:s a":
+                case "g:i:s A":
+                    var hours = now.getHours();
+                    var minutes = now.getMinutes();
+                    var seconds = now.getSeconds();
+                    var ampm = hours >= 12 ? (format.includes("A") ? "PM" : "pm") : (format.includes("A") ? "AM" : "am");
+                    hours = hours % 12;
+                    hours = hours ? hours : 12;
+                    timeString = hours + ":" + (minutes < 10 ? "0" + minutes : minutes) + ":" + (seconds < 10 ? "0" + seconds : seconds) + " " + ampm;
+                    break;
+                case "H:i:s":
+                    timeString = (now.getHours() < 10 ? "0" + now.getHours() : now.getHours()) + ":" + (now.getMinutes() < 10 ? "0" + now.getMinutes() : now.getMinutes()) + ":" + (now.getSeconds() < 10 ? "0" + now.getSeconds() : now.getSeconds());
+                    break;
+            }
+            
+            preview.textContent = timeString;
+        });
+        </script>';
+    }
+
+    public function date_format_callback()
+    {
+        $options = get_option('user_ip_location_options', ['date_format' => 'F j, Y']);
+        $current_format = $options['date_format'] ?? 'F j, Y';
+        
+        $date_formats = [
+            'F j, Y' => 'Full month name with day and year (e.g., January 15, 2025)',
+            'Y-m-d' => 'Year-month-day format (e.g., 2025-01-15)',
+            'm/d/Y' => 'US format: month/day/year (e.g., 01/15/2025)',
+            'd/m/Y' => 'European format: day/month/year (e.g., 15/01/2025)',
+            'M j, Y' => 'Short month name with day and year (e.g., Jan 15, 2025)',
+            'j F Y' => 'Day, full month name, year (e.g., 15 January 2025)',
+            'l, F j, Y' => 'Full day name, month, day, year (e.g., Wednesday, January 15, 2025)',
+            'D, M j, Y' => 'Short day name, month, day, year (e.g., Wed, Jan 15, 2025)'
+        ];
+        
+        echo '<select name="user_ip_location_options[date_format]" id="date_format_select">';
+        foreach ($date_formats as $format => $description) {
+            echo '<option value="' . esc_attr($format) . '"' . selected($current_format, $format, false) . '>' . esc_html($description) . '</option>';
+        }
+        echo '</select>';
+        
+        // Add preview
+        $current_date = date($current_format);
+        echo '<p class="description">Preview: <strong><span id="date_preview">' . esc_html($current_date) . '</span></strong></p>';
+        
+        // Add JavaScript for live preview
+        echo '<script>
+        document.getElementById("date_format_select").addEventListener("change", function() {
+            var format = this.value;
+            var preview = document.getElementById("date_preview");
+            var now = new Date();
+            var dateString = "";
+            
+            var months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+            var monthsShort = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+            var days = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
+            var daysShort = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
+            
+            switch(format) {
+                case "F j, Y":
+                    dateString = months[now.getMonth()] + " " + now.getDate() + ", " + now.getFullYear();
+                    break;
+                case "Y-m-d":
+                    dateString = now.getFullYear() + "-" + (now.getMonth() + 1 < 10 ? "0" + (now.getMonth() + 1) : now.getMonth() + 1) + "-" + (now.getDate() < 10 ? "0" + now.getDate() : now.getDate());
+                    break;
+                case "m/d/Y":
+                    dateString = (now.getMonth() + 1 < 10 ? "0" + (now.getMonth() + 1) : now.getMonth() + 1) + "/" + (now.getDate() < 10 ? "0" + now.getDate() : now.getDate()) + "/" + now.getFullYear();
+                    break;
+                case "d/m/Y":
+                    dateString = (now.getDate() < 10 ? "0" + now.getDate() : now.getDate()) + "/" + (now.getMonth() + 1 < 10 ? "0" + (now.getMonth() + 1) : now.getMonth() + 1) + "/" + now.getFullYear();
+                    break;
+                case "M j, Y":
+                    dateString = monthsShort[now.getMonth()] + " " + now.getDate() + ", " + now.getFullYear();
+                    break;
+                case "j F Y":
+                    dateString = now.getDate() + " " + months[now.getMonth()] + " " + now.getFullYear();
+                    break;
+                case "l, F j, Y":
+                    dateString = days[now.getDay()] + ", " + months[now.getMonth()] + " " + now.getDate() + ", " + now.getFullYear();
+                    break;
+                case "D, M j, Y":
+                    dateString = daysShort[now.getDay()] + ", " + monthsShort[now.getMonth()] + " " + now.getDate() + ", " + now.getFullYear();
+                    break;
+            }
+            
+            preview.textContent = dateString;
+        });
+        </script>';
+    }
+
     /**
      * Renders the main settings page with tabbed navigation.
      */
@@ -178,7 +348,7 @@ class User_IP_Location_Admin_Settings
     {
         if (isset($_GET['action'], $_GET['_wpnonce']) && $_GET['action'] === 'clear_cache' && wp_verify_nonce($_GET['_wpnonce'], 'user_ip_clear_cache')) {
             global $wpdb;
-            $wpdb->query("DELETE FROM {$wpdb->options} WHERE option_name LIKE '_transient_user_ip_location_%' OR option_name LIKE '_transient_timeout_user_ip_location_%'");
+            $wpdb->query($wpdb->prepare("DELETE FROM {$wpdb->options} WHERE option_name LIKE %s OR option_name LIKE %s", '_transient_user_ip_location_%', '_transient_timeout_user_ip_location_%'));
             add_settings_error('user_ip_location_notices', 'cache_cleared', 'API cache cleared successfully.', 'updated');
         }
     ?>
@@ -307,6 +477,7 @@ if ( function_exists( 'get_user_ip_data' ) ) {
             <li><strong>Display Region:</strong> <code>[userip_location type="region"]</code></li>
             <li><strong>Display Region Name:</strong> <code>[userip_location type="regionname"]</code></li>
             <li><strong>Display City:</strong> <code>[userip_location type="city"]</code></li>
+            <li><strong>Display ZIP/Postal Code:</strong> <code>[userip_location type="zip"]</code></li>
             <li><strong>Display Latitude:</strong> <code>[userip_location type="lat"]</code></li>
             <li><strong>Display Longitude:</strong> <code>[userip_location type="lon"]</code></li>
             <li><strong>Display Timezone:</strong> <code>[userip_location type="timezone"]</code></li>
@@ -319,6 +490,14 @@ if ( function_exists( 'get_user_ip_data' ) ) {
             <li><strong>Display Operating System:</strong> <code>[userip_location type="os"]</code></li>
             <li><strong>Display Country Flag:</strong> <code>[userip_location type="flag" height="auto" width="50px"]</code></li>
         </ul>
+
+        <hr>
+        <h3>Time & Date Shortcodes</h3>
+        <ul style="list-style-type: disc; padding-inline-start: 40px;">
+            <li><strong>Display Local Time:</strong> <code>[userip_localtime]</code></li>
+            <li><strong>Display Local Date:</strong> <code>[userip_localdate]</code></li>
+        </ul>
+        <p class="description"><strong>Note:</strong> Time and date formats can be customized in the Settings tab under "Output Formatting".</p>
 
         <hr>
         <h3>Conditional Content</h3>

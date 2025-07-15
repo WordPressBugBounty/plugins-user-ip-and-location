@@ -3,7 +3,7 @@
 /**
  * Plugin Name: User IP and Location
  * Plugin URI: https://theguidex.com/
- * Version: 4.0.1
+ * Version: 4.0.2
  * Author: TheGuideX
  * Author URI: https://theguidex.com/author/sunny/
  * Description: Allows you to insert user's IP address, Location, ISP, City in your WordPress blog post and page using shortcode.
@@ -24,7 +24,7 @@ define('USER_IP_AND_LOCATION_PLUGIN_BASENAME',         plugin_basename(__FILE__)
 define('USER_IP_AND_LOCATION_ADMIN_PATH',              USER_IP_AND_LOCATION_PLUGIN_PATH . 'admin/');
 define('USER_IP_AND_LOCATION_INCLUDES_PATH',           USER_IP_AND_LOCATION_PLUGIN_PATH . 'includes/');
 define('USER_IP_AND_LOCATION_FLAGS',                   plugin_dir_url(__FILE__) . 'flags/');
-define('USER_IP_AND_LOCATION_VERSION',                 '4.0.1');
+define('USER_IP_AND_LOCATION_VERSION',                 '4.0.2');
 
 # Load core classes and functions
 require_once USER_IP_AND_LOCATION_INCLUDES_PATH . 'class-user-ip-location.php';
@@ -39,12 +39,22 @@ if (is_admin()) {
     add_filter('plugin_action_links_' . USER_IP_AND_LOCATION_PLUGIN_BASENAME, [$admin_settings, 'add_settings_link']);
 }
 
-#Registering activation hook
+#Registering activation and deactivation hooks
 register_activation_hook(__FILE__, 'user_ip_and_location_activation');
+register_deactivation_hook(__FILE__, 'user_ip_and_location_deactivation');
 
 function user_ip_and_location_activation()
 {
     set_transient('user-ip-and-location-activate', true, 5);
+}
+
+function user_ip_and_location_deactivation()
+{
+    // Clean up dismissed notices when plugin is deactivated
+    delete_metadata('user', 0, 'user_ip_location_cache_notice_dismissed', '', true);
+    
+    // Clean up rate limiting data
+    delete_transient('user_ip_location_rate_limit');
 }
 
 add_action('admin_notices', 'user_ip_and_location_activation_notice');
