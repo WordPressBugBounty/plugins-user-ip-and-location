@@ -1,0 +1,534 @@
+/**
+ * IP·Location - admin console styling.
+ * "Precise & technical" brand: flat surfaces, indigo accent, monospace data,
+ * high density. Scoped under .uipl-admin so nothing leaks into wp-admin.
+ */
+
+.uipl-admin {
+    --ink: #11161f;
+    --ink-2: #39414f;
+    --muted: #6b7280;
+    --accent: #5b61e8;
+    --accent-hover: #4a50d4;
+    --accent-soft: #eef0fe;
+    --surface: #ffffff;
+    --surface-2: #f6f7fb;
+    --line: #e6e8f0;
+    --line-2: #d7dae4;
+    --radius: 6px;
+    --radius-lg: 8px;
+    --mono: ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas, "Liberation Mono", monospace;
+
+    max-width: 920px;
+    margin: 14px 20px 40px 0;
+    color: var(--ink-2);
+    font-size: 13px;
+    line-height: 1.55;
+    -webkit-font-smoothing: antialiased;
+}
+
+.uipl-admin > h1:first-child {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip: rect(0 0 0 0);
+    white-space: nowrap;
+}
+
+.uipl-admin a {
+    color: var(--accent);
+}
+
+.uipl-eyebrow {
+    display: inline-block;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: .1em;
+    text-transform: uppercase;
+    color: var(--muted);
+}
+
+/* --- Brand bar ---------------------------------------------------------- */
+.uipl-bar {
+    display: flex;
+    align-items: center;
+    gap: 11px;
+    padding: 2px 0 16px;
+}
+
+.uipl-logo__mark {
+    flex: 0 0 auto;
+    width: 30px;
+    height: 30px;
+    display: grid;
+    place-items: center;
+    border-radius: 7px;
+    background: var(--ink);
+    color: #fff;
+}
+
+.uipl-logo {
+    display: flex;
+    flex-direction: column;
+    line-height: 1.18;
+}
+
+.uipl-logo__name {
+    font-size: 15px;
+    font-weight: 650;
+    color: var(--ink);
+    letter-spacing: -.01em;
+}
+
+.uipl-logo__dot {
+    color: var(--accent);
+    font-weight: 700;
+}
+
+.uipl-logo__sub {
+    font-size: 10.5px;
+    font-weight: 600;
+    letter-spacing: .09em;
+    text-transform: uppercase;
+    color: var(--muted);
+}
+
+.uipl-bar__meta {
+    margin-left: auto;
+    display: flex;
+    gap: 6px;
+    align-items: center;
+}
+
+.uipl-chip {
+    font-family: var(--mono);
+    font-size: 11px;
+    font-weight: 600;
+    padding: 3px 9px;
+    border-radius: 999px;
+    border: 1px solid var(--line);
+    color: var(--muted);
+    background: var(--surface);
+}
+
+.uipl-chip--accent {
+    color: var(--accent);
+    background: var(--accent-soft);
+    border-color: transparent;
+}
+
+/* --- Tabs (underline) --------------------------------------------------- */
+.uipl-tabs {
+    display: flex;
+    gap: 2px;
+    border-bottom: 1px solid var(--line);
+    margin-bottom: 20px;
+}
+
+.uipl-tabs a {
+    padding: 9px 14px;
+    font-size: 13px;
+    font-weight: 550;
+    color: var(--muted);
+    text-decoration: none;
+    border-bottom: 2px solid transparent;
+    margin-bottom: -1px;
+    transition: color .12s ease, border-color .12s ease;
+}
+
+.uipl-tabs a:hover {
+    color: var(--ink);
+}
+
+.uipl-tabs a.is-active {
+    color: var(--ink);
+    border-bottom-color: var(--accent);
+}
+
+.uipl-admin .uipl-tabs a:focus {
+    box-shadow: none;
+    outline: none;
+}
+
+.uipl-admin .uipl-tabs a:focus-visible {
+    outline: 2px solid var(--accent);
+    outline-offset: -3px;
+    border-radius: 4px;
+}
+
+/* --- Sections ----------------------------------------------------------- */
+.uipl-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.uipl-card {
+    background: var(--surface);
+    border: 1px solid var(--line);
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+}
+
+.uipl-card__head {
+    padding: 13px 16px;
+    border-bottom: 1px solid var(--line);
+}
+
+.uipl-card__head h2 {
+    margin: 3px 0 0;
+    padding: 0;
+    font-size: 13.5px;
+    font-weight: 650;
+    color: var(--ink);
+}
+
+.uipl-card__head p {
+    margin: 3px 0 0;
+    color: var(--muted);
+    font-size: 12.5px;
+}
+
+/* --- Fields (aligned label / control rows) ------------------------------ */
+.uipl-field {
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+    gap: 16px;
+    padding: 12px 16px;
+    border-top: 1px solid var(--line);
+}
+
+.uipl-field:first-of-type {
+    border-top: 0;
+}
+
+.uipl-field__label {
+    flex: 0 0 180px;
+    padding-top: 7px;
+    font-weight: 550;
+    font-size: 13px;
+    color: var(--ink-2);
+}
+
+.uipl-field__control {
+    flex: 1 1 auto;
+    min-width: 0;
+}
+
+.uipl-admin .uipl-field input[type="text"],
+.uipl-admin .uipl-field select {
+    width: 100%;
+    max-width: 340px;
+    font-size: 13px;
+    border: 1px solid var(--line-2);
+    border-radius: var(--radius);
+    padding: 7px 10px;
+    background: #fff;
+    color: var(--ink);
+    box-shadow: none;
+    min-height: 34px;
+    line-height: 1.4;
+}
+
+.uipl-admin .uipl-field input[type="text"]:focus,
+.uipl-admin .uipl-field select:focus {
+    border-color: var(--accent);
+    box-shadow: 0 0 0 3px var(--accent-soft);
+    outline: 2px solid transparent;
+}
+
+.uipl-admin .uipl-field .description {
+    margin: 6px 0 0;
+    color: var(--muted);
+    font-size: 12px;
+    font-style: normal;
+}
+
+.uipl-admin .uipl-field label > input[type="checkbox"] {
+    margin: 0 8px 0 0;
+}
+
+.uipl-admin .uipl-field label {
+    font-size: 13px;
+    color: var(--ink-2);
+}
+
+/* --- Buttons ------------------------------------------------------------ */
+.uipl-admin .uipl-actions {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-top: 18px;
+}
+
+/* Unify the submit <input> and the ghost <a> so they match exactly. */
+.uipl-admin .uipl-actions .button-primary,
+.uipl-admin .uipl-actions .uipl-btn-ghost {
+    display: inline-flex;
+    align-items: center;
+    height: 32px;
+    padding: 0 14px;
+    font-size: 13px;
+    line-height: 1;
+    border-radius: var(--radius);
+    box-shadow: none;
+    box-sizing: border-box;
+    transition: background .12s ease, border-color .12s ease, color .12s ease;
+}
+
+.uipl-admin .uipl-actions .button-primary {
+    background: var(--accent);
+    border: 1px solid var(--accent-hover);
+    color: #fff;
+    font-weight: 600;
+}
+
+.uipl-admin .uipl-actions .button-primary:hover {
+    background: var(--accent-hover);
+    border-color: var(--accent-hover);
+    color: #fff;
+}
+
+.uipl-admin .uipl-actions .uipl-btn-ghost {
+    background: #fff;
+    border: 1px solid var(--line-2);
+    color: var(--ink-2);
+    font-weight: 550;
+}
+
+.uipl-admin .uipl-actions .uipl-btn-ghost:hover {
+    border-color: var(--accent);
+    color: var(--accent);
+    background: #fff;
+}
+
+/* Suppress WordPress's default focus box on mouse click; keep a keyboard ring. */
+.uipl-admin .uipl-actions .button-primary:focus,
+.uipl-admin .uipl-actions .uipl-btn-ghost:focus {
+    box-shadow: none;
+    outline: none;
+}
+
+.uipl-admin .uipl-actions .button-primary:focus-visible,
+.uipl-admin .uipl-actions .uipl-btn-ghost:focus-visible {
+    outline: 2px solid var(--accent);
+    outline-offset: 2px;
+}
+
+/* --- Your Info readout -------------------------------------------------- */
+.uipl-info {
+    background: var(--surface);
+    border: 1px solid var(--line);
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+}
+
+.uipl-info__ip {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex-wrap: wrap;
+    padding: 14px 16px;
+    background: var(--surface-2);
+    border-bottom: 1px solid var(--line);
+    font-family: var(--mono);
+    font-size: 17px;
+    font-weight: 600;
+    color: var(--ink);
+}
+
+.uipl-info__ip .uipl-mark {
+    display: inline-flex;
+    color: var(--accent);
+}
+
+.uipl-flagchip {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    padding: 3px 11px 3px 5px;
+    border-radius: 999px;
+    background: #fff;
+    border: 1px solid var(--line);
+    color: var(--ink-2);
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    font-size: 12.5px;
+    font-weight: 500;
+}
+
+.uipl-flagchip img {
+    width: 19px;
+    height: auto;
+    border-radius: 3px;
+    display: block;
+}
+
+.uipl-info__grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+}
+
+.uipl-stat {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 14px;
+    padding: 10px 16px;
+    border-top: 1px solid var(--line);
+}
+
+.uipl-info__grid .uipl-stat:nth-child(-n + 2) {
+    border-top: 0;
+}
+
+.uipl-stat--full {
+    grid-column: 1 / -1;
+}
+
+.uipl-stat__label {
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: .07em;
+    text-transform: uppercase;
+    color: var(--muted);
+    white-space: nowrap;
+}
+
+.uipl-stat__value {
+    font-family: var(--mono);
+    font-size: 12.5px;
+    color: var(--ink);
+    text-align: right;
+    word-break: break-word;
+}
+
+.uipl-info__note {
+    margin: 0;
+    padding: 12px 16px;
+    border-top: 1px solid var(--line);
+    font-size: 12px;
+    color: var(--muted);
+    background: var(--surface-2);
+}
+
+/* --- Shortcode + code guides ------------------------------------------- */
+.uipl-list {
+    list-style: none;
+    margin: 0;
+    padding: 14px 16px;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(270px, 1fr));
+    gap: 8px;
+}
+
+.uipl-list li {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    padding: 10px 12px;
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    background: var(--surface-2);
+    margin: 0;
+}
+
+.uipl-list__label {
+    font-size: 12px;
+    color: var(--muted);
+}
+
+.uipl-admin code,
+.uipl-admin .uipl-code {
+    font-family: var(--mono);
+    font-size: 12px;
+    background: var(--accent-soft);
+    color: var(--accent-hover);
+    padding: 2px 6px;
+    border-radius: 5px;
+}
+
+.uipl-admin .uipl-card pre {
+    background: var(--ink);
+    color: #e6e9f2;
+    padding: 14px 16px;
+    margin: 14px 16px;
+    border-radius: var(--radius);
+    overflow: auto;
+    font-family: var(--mono);
+    font-size: 12px;
+    line-height: 1.6;
+}
+
+.uipl-admin .uipl-card pre code {
+    background: none;
+    color: inherit;
+    padding: 0;
+}
+
+.uipl-admin .uipl-card > .description,
+.uipl-admin .uipl-card > p {
+    padding: 0 16px 14px;
+    margin: 0;
+    color: var(--muted);
+    font-size: 12.5px;
+}
+
+.uipl-admin .uipl-card__pad {
+    padding: 14px 16px;
+}
+
+.uipl-admin .uipl-card__pad p {
+    margin: 0;
+    padding: 0;
+}
+
+/* WordPress settings notices, fitted in. */
+.uipl-admin .notice {
+    border-radius: var(--radius);
+    margin: 0 0 16px;
+}
+
+/* --- Responsive --------------------------------------------------------- */
+@media (max-width: 782px) {
+    .uipl-admin {
+        margin-right: 0;
+    }
+
+    .uipl-field {
+        flex-direction: column;
+        gap: 6px;
+        align-items: stretch;
+    }
+
+    .uipl-field__label {
+        flex-basis: auto;
+        padding-top: 0;
+    }
+
+    .uipl-admin .uipl-field input[type="text"],
+    .uipl-admin .uipl-field select {
+        max-width: 100%;
+    }
+
+    .uipl-tabs {
+        overflow-x: auto;
+    }
+}
+
+@media (max-width: 600px) {
+    .uipl-info__grid {
+        grid-template-columns: 1fr;
+    }
+
+    .uipl-info__grid .uipl-stat:nth-child(2) {
+        border-top: 1px solid var(--line);
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .uipl-admin * {
+        transition: none !important;
+    }
+}

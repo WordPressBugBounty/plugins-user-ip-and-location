@@ -1,0 +1,531 @@
+# Copyright (C) 2026 TheGuideX
+# This file is distributed under the GPL2 license.
+msgid ""
+msgstr ""
+"Project-Id-Version: User IP and Location 5.0.0\n"
+"Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/user-ip-and-location\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"POT-Creation-Date: 2026-06-18T00:00:00+00:00\n"
+"X-Domain: user-ip-and-location\n"
+
+#: src/Admin/Settings.php:179
+msgid "1 Day"
+msgstr ""
+
+#: src/Admin/Settings.php:177
+msgid "1 Hour"
+msgstr ""
+
+#: src/Admin/Settings.php:180
+msgid "1 Week"
+msgstr ""
+
+#: src/Admin/Settings.php:267
+msgid "12-hour with leading zeros and lowercase am/pm (e.g., 03:30 pm)"
+msgstr ""
+
+#: src/Admin/Settings.php:268
+msgid "12-hour with leading zeros and uppercase AM/PM (e.g., 03:30 PM)"
+msgstr ""
+
+#: src/Admin/Settings.php:264
+msgid "12-hour with lowercase am/pm (e.g., 3:30 pm)"
+msgstr ""
+
+#: src/Admin/Settings.php:269
+msgid "12-hour with seconds and lowercase am/pm (e.g., 3:30:45 pm)"
+msgstr ""
+
+#: src/Admin/Settings.php:270
+msgid "12-hour with seconds and uppercase AM/PM (e.g., 3:30:45 PM)"
+msgstr ""
+
+#: src/Admin/Settings.php:265
+msgid "12-hour with uppercase AM/PM (e.g., 3:30 PM)"
+msgstr ""
+
+#: src/Admin/Settings.php:266
+msgid "24-hour format (e.g., 15:30)"
+msgstr ""
+
+#: src/Admin/Settings.php:271
+msgid "24-hour with seconds (e.g., 15:30:45)"
+msgstr ""
+
+#: src/Admin/Settings.php:178
+msgid "6 Hours"
+msgstr ""
+
+#: src/Admin/Settings.php:575
+msgid "A <code>GET</code> request returns the same JSON as the PHP function above."
+msgstr ""
+
+#: src/Admin/Settings.php:634
+msgid "A city"
+msgstr ""
+
+#: src/Admin/Settings.php:633
+msgid "A region"
+msgstr ""
+
+#: assets/js/blocks.js:33
+msgid "AJAX (cache-friendly)"
+msgstr ""
+
+#: src/Admin/Settings.php:239
+msgid "AJAX is recommended for cached sites. Pick Server-side if shortcodes go inside form fields, RSS, or AMP. You can also override per shortcode with <code>ajax=\"false\"</code>."
+msgstr ""
+
+#: src/Admin/Settings.php:230
+msgid "AJAX — loads after the page (works with page caching)"
+msgstr ""
+
+#: src/Admin/Settings.php:394
+msgid "API cache cleared successfully."
+msgstr ""
+
+#: src/Admin/Settings.php:571
+msgid "API endpoint"
+msgstr ""
+
+#: src/Admin/Settings.php:444
+msgid "API key"
+msgstr ""
+
+#: assets/js/blocks.js:137
+msgid "Always shown — set a condition in the sidebar"
+msgstr ""
+
+#: src/Admin/Settings.php:636
+msgid "Attributes: <code>country</code>, <code>country_not</code>, <code>region</code>, <code>region_not</code>, <code>city</code>, <code>city_not</code>."
+msgstr ""
+
+#: src/Admin/Settings.php:539 src/Fields.php:47
+msgid "Browser"
+msgstr ""
+
+#: src/Admin/Settings.php:169
+msgid "Cache API results in the database."
+msgstr ""
+
+#: src/Cache_Compatibility.php:151
+msgid "Cache compatibility enabled for: %s. REST API endpoints are automatically excluded from caching."
+msgstr ""
+
+#: src/Admin/Settings.php:457
+msgid "Cache expiration"
+msgstr ""
+
+#: src/Admin/Settings.php:453
+msgid "Cache lookups to cut API requests and speed up repeat visits."
+msgstr ""
+
+#: src/Admin/Settings.php:452
+msgid "Caching"
+msgstr ""
+
+#: src/Admin/Settings.php:557
+msgid "Call <code>get_user_ip_data()</code> for an array of the current visitor's location data. Returns an array on success, or <code>null</code> if the lookup fails."
+msgstr ""
+
+#: assets/js/blocks.js:27 src/Fields.php:37
+msgid "City"
+msgstr ""
+
+#: assets/js/blocks.js:123
+msgid "City is"
+msgstr ""
+
+#: assets/js/blocks.js:124
+msgid "City is NOT"
+msgstr ""
+
+#: src/Admin/Settings.php:487
+msgid "Clear cache now"
+msgstr ""
+
+#: src/Admin/Settings.php:463
+msgid "Compatibility"
+msgstr ""
+
+#: assets/js/blocks.js:142
+msgid "Conditional Content"
+msgstr ""
+
+#: src/Admin/Settings.php:627
+msgid "Conditional content"
+msgstr ""
+
+#: src/Admin/Settings.php:441
+msgid "Connect to the ip-api.com service. The free tier works out of the box."
+msgstr ""
+
+#: src/Fields.php:32
+msgid "Continent"
+msgstr ""
+
+#: src/Admin/Settings.php:474
+msgid "Control how yes/no values, time, and date appear in your shortcodes."
+msgstr ""
+
+#: src/Admin/Settings.php:534
+msgid "Coordinates"
+msgstr ""
+
+#: assets/js/blocks.js:26 src/Fields.php:33
+msgid "Country"
+msgstr ""
+
+#: src/Fields.php:34
+msgid "Country code"
+msgstr ""
+
+#: assets/js/blocks.js:28 src/Admin/Settings.php:606 src/Fields.php:49
+msgid "Country flag"
+msgstr ""
+
+#: assets/js/blocks.js:119
+msgid "Country is"
+msgstr ""
+
+#: assets/js/blocks.js:120
+msgid "Country is NOT"
+msgstr ""
+
+#: src/Admin/Settings.php:538 src/Fields.php:42
+msgid "Currency"
+msgstr ""
+
+#: src/Admin/Settings.php:294
+msgid "Day, full month name, year (e.g., 15 January 2025)"
+msgstr ""
+
+#: assets/js/blocks.js:32
+msgid "Default (site setting)"
+msgstr ""
+
+#: src/Admin/Settings.php:322
+msgid "Developers"
+msgstr ""
+
+#: assets/js/blocks.js:50
+msgid "Display a single piece of the visitor’s IP or location data."
+msgstr ""
+
+#: src/Admin/Settings.php:594
+msgid "Display data"
+msgstr ""
+
+#: src/Admin/Settings.php:596
+msgid "Drop any of these into a post, page, or widget to print a single value."
+msgstr ""
+
+#: src/Admin/Settings.php:292
+msgid "European format: day/month/year (e.g., 15/01/2025)"
+msgstr ""
+
+#: src/Admin/Settings.php:632
+msgid "Everyone except"
+msgstr ""
+
+#: src/Admin/Settings.php:572
+msgid "Fetch the visitor's location over REST &mdash; useful for headless setups or JavaScript. Requires the <code>manage_options</code> capability."
+msgstr ""
+
+#: assets/js/blocks.js:70
+msgid "Field"
+msgstr ""
+
+#: assets/js/blocks.js:93
+msgid "Flag height"
+msgstr ""
+
+#: assets/js/blocks.js:87
+msgid "Flag width"
+msgstr ""
+
+#: src/Admin/Settings.php:196
+msgid "For users of the <a href=\"https://ip-api.com/pro\" target=\"_blank\" rel=\"noopener\">Pro service</a>."
+msgstr ""
+
+#: src/Admin/Settings.php:616
+msgid "Formats are set in <strong>Settings &rarr; Formatting</strong>."
+msgstr ""
+
+#: src/Admin/Settings.php:473
+msgid "Formatting"
+msgstr ""
+
+#: src/Admin/Settings.php:295
+msgid "Full day name, month, day, year (e.g., Wednesday, January 15, 2025)"
+msgstr ""
+
+#: src/Admin/Settings.php:289
+msgid "Full month name with day and year (e.g., January 15, 2025)"
+msgstr ""
+
+#: src/Admin/Settings.php:440
+msgid "Geolocation API"
+msgstr ""
+
+#: src/Admin/Settings.php:556
+msgid "Global function"
+msgstr ""
+
+#: src/Fields.php:46
+msgid "Hosting provider? (Yes/No)"
+msgstr ""
+
+#: src/Admin/Settings.php:465
+msgid "How shortcodes output their value. Switch to server-side if forms or feeds break."
+msgstr ""
+
+#: assets/js/blocks.js:25 src/Fields.php:31
+msgid "IP address"
+msgstr ""
+
+#: src/Admin/Settings.php:536 src/Fields.php:43
+msgid "ISP"
+msgstr ""
+
+#: src/Fields.php:39
+msgid "Latitude"
+msgstr ""
+
+#: src/Admin/Settings.php:620 src/Fields.php:51
+msgid "Local date"
+msgstr ""
+
+#: src/Admin/Settings.php:480
+msgid "Local date format"
+msgstr ""
+
+#: src/Admin/Settings.php:619 src/Fields.php:50
+msgid "Local time"
+msgstr ""
+
+#: src/Admin/Settings.php:479
+msgid "Local time format"
+msgstr ""
+
+#: src/Admin/Settings.php:615
+msgid "Local time shortcodes"
+msgstr ""
+
+#: src/Fields.php:40
+msgid "Longitude"
+msgstr ""
+
+#: src/Admin/Settings.php:641
+msgid "Need a hand? Visit the <a href=\"https://wordpress.org/plugins/user-ip-and-location/\" target=\"_blank\" rel=\"noopener\">plugin page on WordPress.org</a>."
+msgstr ""
+
+#: src/Fields.php:44
+msgid "On mobile? (Yes/No)"
+msgstr ""
+
+#: src/Admin/Settings.php:540 src/Fields.php:48
+msgid "Operating system"
+msgstr ""
+
+#: src/Admin/Settings.php:194
+msgid "Optional API key"
+msgstr ""
+
+#: src/Admin/Settings.php:472
+msgid "Output"
+msgstr ""
+
+#: src/Admin/Settings.php:555
+msgid "PHP"
+msgstr ""
+
+#: src/Admin/Settings.php:451
+msgid "Performance"
+msgstr ""
+
+#: src/Admin/Settings.php:456
+msgid "Persistent caching"
+msgstr ""
+
+#: src/Admin/Settings.php:280 src/Admin/Settings.php:305
+msgid "Preview:"
+msgstr ""
+
+#: src/Admin/Settings.php:570
+msgid "REST"
+msgstr ""
+
+#: src/Admin/Settings.php:535
+msgid "Region"
+msgstr ""
+
+#: src/Fields.php:35
+msgid "Region code"
+msgstr ""
+
+#: assets/js/blocks.js:121
+msgid "Region is"
+msgstr ""
+
+#: assets/js/blocks.js:122
+msgid "Region is NOT"
+msgstr ""
+
+#: src/Fields.php:36
+msgid "Region name"
+msgstr ""
+
+#: assets/js/blocks.js:77 assets/js/blocks.js:177 src/Admin/Settings.php:467
+msgid "Render mode"
+msgstr ""
+
+#: src/Admin/Settings.php:464
+msgid "Rendering"
+msgstr ""
+
+#: src/Admin/Settings.php:445
+msgid "Response language"
+msgstr ""
+
+#: src/Admin/Settings.php:486
+msgid "Save changes"
+msgstr ""
+
+#: src/Admin/Settings.php:386
+msgid "Security check failed. Please try clearing the cache again."
+msgstr ""
+
+#: src/Admin/Settings.php:222
+msgid "Select the language for country, region, and city names."
+msgstr ""
+
+#: assets/js/blocks.js:34
+msgid "Server-side (forms, RSS, no-JS)"
+msgstr ""
+
+#: src/Admin/Settings.php:231
+msgid "Server-side — printed directly (best for forms, RSS & non-cached sites)"
+msgstr ""
+
+#: src/Admin/Settings.php:439
+msgid "Service"
+msgstr ""
+
+#: assets/js/blocks.js:103 src/Admin/Settings.php:99 src/Admin/Settings.php:319
+msgid "Settings"
+msgstr ""
+
+#: src/Admin/Settings.php:296
+msgid "Short day name, month, day, year (e.g., Wed, Jan 15, 2025)"
+msgstr ""
+
+#: src/Admin/Settings.php:293
+msgid "Short month name with day and year (e.g., Jan 15, 2025)"
+msgstr ""
+
+#: src/Admin/Settings.php:320
+msgid "Shortcodes"
+msgstr ""
+
+#: src/Admin/Settings.php:628
+msgid "Show or hide enclosed content by location. Combine attributes; values are case-insensitive."
+msgstr ""
+
+#: assets/js/blocks.js:143
+msgid "Show the inner content only to visitors from the locations you choose."
+msgstr ""
+
+#: assets/js/blocks.js:187
+msgid "Show when…"
+msgstr ""
+
+#: assets/js/blocks.js:136
+msgid "Shown when: "
+msgstr ""
+
+#: src/Admin/Settings.php:631
+msgid "Specific countries"
+msgstr ""
+
+#: src/Admin/Settings.php:626
+msgid "Targeting"
+msgstr ""
+
+#: src/Admin/Settings.php:478
+msgid "Text for \"No\""
+msgstr ""
+
+#: src/Admin/Settings.php:477
+msgid "Text for \"Yes\""
+msgstr ""
+
+#: src/Admin/Settings.php:544
+msgid "This is what the plugin detects for your current connection. Private or local addresses (like 127.0.0.1) can't be geolocated."
+msgstr ""
+
+#: src/Admin/Settings.php:614
+msgid "Time & date"
+msgstr ""
+
+#: src/Admin/Settings.php:537 src/Fields.php:41
+msgid "Timezone"
+msgstr ""
+
+#: src/Admin/Settings.php:291
+msgid "US format: month/day/year (e.g., 01/15/2025)"
+msgstr ""
+
+#: assets/js/blocks.js:188
+msgid "Use 2-letter country/region codes. Separate multiple values with commas. Values are case-insensitive."
+msgstr ""
+
+#: src/Admin/Settings.php:112 src/Admin/Settings.php:113
+msgid "User IP and Location"
+msgstr ""
+
+#: src/Plugin.php:102
+msgid "User IP and Location is activated. Please go to the <a href=\"%s\">settings page</a> to configure the plugin."
+msgstr ""
+
+#: src/Cache_Compatibility.php:148
+msgid "User IP and Location:"
+msgstr ""
+
+#: src/Admin/Settings.php:541
+msgid "User agent"
+msgstr ""
+
+#: src/Fields.php:45
+msgid "Using proxy? (Yes/No)"
+msgstr ""
+
+#: assets/js/blocks.js:49
+msgid "Visitor Info"
+msgstr ""
+
+#: src/Admin/Settings.php:595
+msgid "Visitor data shortcodes"
+msgstr ""
+
+#: src/Admin/Settings.php:335
+msgid "Visitor geolocation"
+msgstr ""
+
+#: src/Admin/Settings.php:290
+msgid "Year-month-day format (e.g., 2025-01-15)"
+msgstr ""
+
+#: src/Admin/Settings.php:321
+msgid "Your Info"
+msgstr ""
+
+#: src/Fields.php:38
+msgid "ZIP / postal code"
+msgstr ""
+
+#: assets/js/blocks.js:166
+msgid "e.g. US, CA"
+msgstr ""

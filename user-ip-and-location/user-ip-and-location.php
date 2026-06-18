@@ -3,13 +3,15 @@
 /**
  * Plugin Name: User IP and Location
  * Plugin URI: https://theguidex.com/
- * Version: 4.0.2
+ * Version: 5.0.0
  * Author: TheGuideX
  * Author URI: https://theguidex.com/author/sunny/
  * Description: Allows you to insert user's IP address, Location, ISP, City in your WordPress blog post and page using shortcode.
  * License: GPL2
+ * License URI: http://www.gnu.org/licenses/gpl-2.0.html
  * Requires PHP: 7.2
- * Tested up to: 6.8.1
+ * Requires at least: 5.0
+ * Tested up to: 7.0
  * Text Domain: user-ip-and-location
  */
 
@@ -17,54 +19,54 @@ if (!defined('ABSPATH')) {
     exit; // Exit if accessed directly.
 }
 
-#Define Constants for the plugin
-define('USER_IP_AND_LOCATION_PLUGIN_URL',              plugin_dir_url(__FILE__));
-define('USER_IP_AND_LOCATION_PLUGIN_PATH',             plugin_dir_path(__FILE__));
-define('USER_IP_AND_LOCATION_PLUGIN_BASENAME',         plugin_basename(__FILE__));
-define('USER_IP_AND_LOCATION_ADMIN_PATH',              USER_IP_AND_LOCATION_PLUGIN_PATH . 'admin/');
-define('USER_IP_AND_LOCATION_INCLUDES_PATH',           USER_IP_AND_LOCATION_PLUGIN_PATH . 'includes/');
-define('USER_IP_AND_LOCATION_FLAGS',                   plugin_dir_url(__FILE__) . 'flags/');
-define('USER_IP_AND_LOCATION_VERSION',                 '4.0.2');
+// Version and path constants. Names are kept identical to previous releases so
+// any third-party code referencing them keeps resolving.
+define('USER_IP_AND_LOCATION_VERSION',        '5.0.0');
+define('USER_IP_AND_LOCATION_PLUGIN_FILE',    __FILE__);
+define('USER_IP_AND_LOCATION_PLUGIN_URL',     plugin_dir_url(__FILE__));
+define('USER_IP_AND_LOCATION_PLUGIN_PATH',    plugin_dir_path(__FILE__));
+define('USER_IP_AND_LOCATION_PLUGIN_BASENAME', plugin_basename(__FILE__));
+define('USER_IP_AND_LOCATION_FLAGS',          plugin_dir_url(__FILE__) . 'flags/');
+define('USER_IP_AND_LOCATION_INCLUDES_PATH',  USER_IP_AND_LOCATION_PLUGIN_PATH . 'src/');
+define('USER_IP_AND_LOCATION_ADMIN_PATH',     USER_IP_AND_LOCATION_PLUGIN_PATH . 'src/Admin/');
 
-# Load core classes and functions
-require_once USER_IP_AND_LOCATION_INCLUDES_PATH . 'class-user-ip-location.php';
-require_once USER_IP_AND_LOCATION_INCLUDES_PATH . 'class-user-browser.php';
-require_once USER_IP_AND_LOCATION_INCLUDES_PATH . 'functions-developer.php';
-require_once USER_IP_AND_LOCATION_INCLUDES_PATH . 'functions-shortcodes.php';
+// Register the namespaced autoloader (also handles legacy class-name aliases).
+require_once USER_IP_AND_LOCATION_PLUGIN_PATH . 'src/Autoloader.php';
+UserIPLocation\Autoloader::register();
 
-# Load admin class
-if (is_admin()) {
-    require_once USER_IP_AND_LOCATION_ADMIN_PATH . 'class-admin-settings.php';
-    $admin_settings = User_IP_Location_Admin_Settings::get_instance();
-    add_filter('plugin_action_links_' . USER_IP_AND_LOCATION_PLUGIN_BASENAME, [$admin_settings, 'add_settings_link']);
+// Public global helper functions (backward compatible).
+require_once USER_IP_AND_LOCATION_PLUGIN_PATH . 'src/functions.php';
+
+// Activation / deactivation hooks.
+register_activation_hook(__FILE__, array('UserIPLocation\\Activation', 'activate'));
+register_deactivation_hook(__FILE__, array('UserIPLocation\\Activation', 'deactivate'));
+
+// Boot the plugin once all plugins are loaded.
+add_action('plugins_loaded', 'user_ip_and_location_boot');
+
+/**
+ * Boots the plugin orchestrator.
+ *
+ * @return void
+ */
+function user_ip_and_location_boot()
+{
+    UserIPLocation\Plugin::instance()->boot();
 }
 
-#Registering activation and deactivation hooks
-register_activation_hook(__FILE__, 'user_ip_and_location_activation');
-register_deactivation_hook(__FILE__, 'user_ip_and_location_deactivation');
+// Load translations.
+add_action('init', 'user_ip_and_location_load_textdomain');
 
-function user_ip_and_location_activation()
+/**
+ * Loads the plugin text domain for translations.
+ *
+ * @return void
+ */
+function user_ip_and_location_load_textdomain()
 {
-    set_transient('user-ip-and-location-activate', true, 5);
-}
-
-function user_ip_and_location_deactivation()
-{
-    // Clean up dismissed notices when plugin is deactivated
-    delete_metadata('user', 0, 'user_ip_location_cache_notice_dismissed', '', true);
-    
-    // Clean up rate limiting data
-    delete_transient('user_ip_location_rate_limit');
-}
-
-add_action('admin_notices', 'user_ip_and_location_activation_notice');
-
-function user_ip_and_location_activation_notice()
-{
-    if (get_transient('user-ip-and-location-activate')) { ?>
-        <div class="updated notice is-dismissible">
-            <p><?php _e('User IP and Location is activated. Please go to the <a href="admin.php?page=user-ip-and-location">User IP and Location</a> page to configure the plugin.', 'user-ip-and-location'); ?></p>
-        </div>
-<?php delete_transient('user-ip-and-location-activate');
-    }
+    load_plugin_textdomain(
+        'user-ip-and-location',
+        false,
+        dirname(USER_IP_AND_LOCATION_PLUGIN_BASENAME) . '/languages'
+    );
 }

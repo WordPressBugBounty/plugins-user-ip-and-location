@@ -1,9 +1,10 @@
 === User IP and Location ===
 Contributors: theguidex, 5unnykum4r
-Tags: geolocation, user ip address, user location, country code, region, city, country name, user IP, visitor IP, user location, ajax, cache friendly, wp-rocket, local time, zip code
+Tags: geolocation, ip address, visitor location, country, ip-api
 Requires at least: 5.0
-Tested up to: 6.8.1
-Stable tag: 4.0.2
+Tested up to: 7.0
+Requires PHP: 7.2
+Stable tag: 5.0.0
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -17,9 +18,13 @@ This plugin is very simple to set up and use. Just install it, and you can start
 
 The best part? We use the reliable and free <a href="http://ip-api.com" rel="friend" title="IP-API">IP-API</a> service to get all the location data, so the information is always accurate and up-to-date.
 
-**New in Version 4.x.x - Works with Caching Plugins!**
+**Works with Caching Plugins!**
 
-Are you using WP-Rocket, W3 Total Cache, or any other caching plugin? No problem at all! We've completely rebuilt the plugin to work perfectly with all caching plugins. Your visitors will always see their own correct information, not some cached data from another visitor.
+Are you using WP-Rocket, W3 Total Cache, or any other caching plugin? No problem at all! The plugin is built to work perfectly with all caching plugins. Your visitors will always see their own correct information, not some cached data from another visitor.
+
+**New in Version 5.0.0 - Rebuilt Inside, Same Simple Use**
+
+Version 5.0.0 is a full internal rewrite for better reliability and easier maintenance. Everything you already use keeps working exactly the same - the same shortcodes, the same settings, the same developer function and REST API. On top of that, browser detection now correctly recognises modern Edge and Opera, the "Clear Cache" button works on sites using Redis/Memcached object caching, and several smaller issues are fixed. See the changelog for the full list.
 
 **Advanced Features:**
 
@@ -27,6 +32,7 @@ Are you using WP-Rocket, W3 Total Cache, or any other caching plugin? No problem
 * **PRO API Key Support** - Use your premium IP-API key for higher limits and HTTPS security
 * **Smart Caching System** - Built-in server-side caching with customizable expiration times (1 hour to 1 week)
 * **Conditional Content** - Show different content to visitors from specific countries, regions, or cities
+* **Block Editor Support** - Visitor Info and Conditional Content blocks, plus a handy "{" inline insert for dropping values into a sentence
 * **Developer Tools** - PHP functions and REST API endpoints for custom development
 * **Customizable Output** - Change "Yes/No" text to any language or format you prefer
 
@@ -64,6 +70,14 @@ Show different content to visitors from different places! Perfect for targeted m
 
 **About the Flag Shortcode:**
 When using the flag shortcode, you can control its size and position. The `height`, `width`, and `vertical_align` options are all optional. By default, height is auto, width is 50px, and it aligns in the middle. You can change these as per your needs.
+
+**Block Editor (no shortcode typing needed):**
+Prefer blocks? In the editor, click the (+) inserter and add:
+
+* **Visitor Info** - shows a single value (IP, city, country, flag, local time, and more); pick the field from a dropdown.
+* **Conditional Content** - show the inner content only to visitors from the countries, regions, or cities you choose.
+
+Want a value inside a sentence, like "Welcome {country}"? In any paragraph just type <code>{</code> and a menu appears - pick Country, City, IP, Flag, etc. and it is inserted right where you are typing. You can also type a shortcode directly in a paragraph, for example <code>Welcome [userip_location type="country"]</code>.
 
 = Why Choose User IP and Location Plugin? =
 
@@ -256,10 +270,40 @@ Not at all! The plugin uses AJAX loading, which means the location data is fetch
 
 = Is the location data accurate? =
 
-Yes! We use the reliable IP-API service which provides very accurate location data based on IP addresses.
+It is as accurate as IP-based geolocation can be, which is approximate by nature. Country and region are usually correct, but the city can be off — often by tens of miles, and sometimes more on mobile/4G networks, because the IP maps to your ISP's routing location rather than your exact position. This is true of every IP geolocation service, not just this plugin. If you need pinpoint accuracy, IP location alone is not the right tool.
+
+= My shortcode doesn't show inside a form field, or it breaks my form (e.g. Ninja Forms)? =
+
+By default the plugin fills shortcodes after the page loads (AJAX), which can clash with form fields that store the shortcode as a default value. Switch that shortcode to server-side rendering and it will print the plain value instead: add <code>ajax="false"</code>, for example <code>[userip_location type="ip" ajax="false"]</code>. You can also make server-side the default for the whole site under Settings &rarr; Rendering.
+
+= Can I use the plugin without JavaScript, or in RSS feeds / AMP pages? =
+
+Yes. Set the render mode to "Server-side" under Settings &rarr; Rendering (or add <code>ajax="false"</code> to a shortcode). In this mode the value is written directly into the content, so it works without JavaScript. Note: if you use server-side mode together with a page cache, visitors may see a cached value from another visitor — keep AJAX mode if your pages are cached.
+
+= How do I use it in the Block Editor (and write "Welcome {country}")? =
+
+Three easy ways:
+- **Blocks:** click the (+) inserter and add the **Visitor Info** block (pick a field) or the **Conditional Content** block (show content by location).
+- **Inline in a sentence:** in any paragraph, type <code>{</code> and choose a field from the menu — it drops the value right into your text, so you can write "Welcome {country}".
+- **Shortcodes:** type a shortcode anywhere in a paragraph, e.g. <code>Welcome [userip_location type="country"]</code>.
 
 
 == Changelog ==
+
+= 5.0.0 =
+* **REWRITE:** Re-architected the plugin internals with a namespaced, autoloaded structure for easier maintenance. All shortcodes, the `get_user_ip_data()` function, REST endpoints, and saved settings continue to work exactly as before.
+* **NEW:** Block editor support — a "Visitor Info" block (pick any field, including the flag and local time/date) and a "Conditional Content" block (show inner content by country/region/city). No more hunting for shortcode syntax; the classic shortcodes still work too.
+* **NEW:** Server-side rendering mode for shortcodes. Set it globally under Settings &rarr; Rendering, or per shortcode with <code>ajax="false"</code>. The value is printed directly into the page, which fixes shortcodes used inside form fields (e.g. Ninja Forms), RSS feeds, and AMP, and works even without JavaScript. AJAX stays the default, so cached sites are unaffected.
+* **FIX:** The API rate limiter now counts failed attempts too, so an upstream outage can no longer trigger unbounded outbound requests.
+* **DEV:** New extension points for add-ons — a `Location_Provider` interface (swap the data source via the `user_ip_location_provider` filter) plus `user_ip_location_pre_fetch`, `user_ip_location_data`, and `user_ip_location_valid_types` filters and a `user_ip_location_lookup_failed` action. Block editor strings are now translatable, and persistent caching is enabled by default on new installs.
+* **FIX:** Corrected the post-activation notice link so it points to the settings page.
+* **FIX:** Browser detection now correctly identifies Chromium-based Microsoft Edge and modern Opera (previously reported as Chrome).
+* **FIX:** Removed PHP 8 "undefined array key" notices when the API omits mobile/proxy/hosting fields.
+* **IMPROVEMENT:** "Clear Cache" now works reliably on sites using a persistent object cache (Redis/Memcached).
+* **IMPROVEMENT:** Forwarded proxy IP headers are now validated for public addresses, with a `user_ip_location_trust_proxy_headers` filter to opt out.
+* **IMPROVEMENT:** When the API rate limit is reached, the plugin now serves the last known cached value instead of failing.
+* **IMPROVEMENT:** Added an uninstall routine that cleans up all plugin data on deletion.
+* **DEV:** Debug logging is now gated behind WP_DEBUG.
 
 = 4.0.2 - 15 July 2025 =
 * **NEW:** Added <code>[userip_localdate]</code> shortcode to display visitor's current local date
@@ -302,6 +346,9 @@ Yes! We use the reliable IP-API service which provides very accurate location da
 * Fixed important bug where server IP was showing instead of visitor's IP
 
 == Upgrade Notice ==
+
+= 5.0.0 =
+Major internal rewrite for better maintainability and reliability, with fixes for Edge/Opera browser detection, object-cache clearing, and the activation link. Fully backward compatible — your shortcodes and settings keep working. Update recommended.
 
 = 4.0.2 =
 🎉 NEW FEATURE! Added [userip_localdate] shortcode to show visitor's local date. Plus important fixes for dynamic content loading with page builders like OptimizePress and Elementor. Update now!
